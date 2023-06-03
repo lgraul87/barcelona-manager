@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "barcelona-manager"
+  },
+  "targets": {
+    "barcelona-manager": {
+      "hosting": {
+        "barcelona-manager": [
+          "barcelona-manager"
+        ]
+      }
+    }
   }
 }
