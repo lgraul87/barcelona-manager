@@ -14,7 +14,7 @@
 
                             <div class="row">
                                 <div class="col mt-4 text-center">
-                                    <h5 class="text-dark">Iniciar sesión</h5>
+                                    <h5>Iniciar sesión</h5>
                                 </div>
                             </div>
 
@@ -24,34 +24,75 @@
                                 </div>
                             </div>
 
-                            <div [formGroup]="loginForm">
-
+                            <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm)">
                                 <div class="row">
                                     <div class="col mt-3">
                                         <input class="form-control" placeholder="E-mail" formControlName="email"
                                             type="email">
+
+                                        <div *ngIf="!isSubmited || email?.valid">
+                                            <span>
+                                               &nbsp;
+                                            </span>
+                                        </div>
+
+                                        <div *ngIf="email?.hasError('required') && isSubmited">
+                                            <span class="text-danger">
+                                                * E-mail es obligatorio
+                                            </span>
+                                        </div>
+
+                                        <div *ngIf="email?.hasError('email') && isSubmited">
+                                            <span class="text-danger">
+                                               * E-mail inválido, ej: "email@gmail.com"
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col mt-4">
+                                    <div class="col mt-2">
                                         <input class="form-control" placeholder="Password" formControlName="password"
                                             type="password">
+
+                                        <div *ngIf="!isSubmited || password?.valid">
+                                            <span>
+                                                &nbsp;
+                                            </span>
+                                        </div>
+
+                                        <div *ngIf="password?.hasError('required') && isSubmited">
+                                            <span class="text-danger">
+                                                * Password es obligatorio
+                                            </span>
+                                        </div>
+
+                                        <div *ngIf="password?.hasError('minlength') && isSubmited">
+                                            <span class="text-danger">
+                                                * Min 2 caracteres
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col mt-5">
-                                        <button type="button" class="btn btn-primary w-100">Enviar</button>
+                                    <div class="col mt-3">
+                                        <button type="submit" class="btn btn-primary w-100">Enviar</button>
+
+                                        <div *ngIf="unregistered && isSubmited">
+                                            <p class="text-danger fw-bold text-center mt-3">
+                                                Unregistered user!
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-
-                            </div>
+                            </form>
 
                         </div>
-                        <div class="col-7 barcelona-img rounded-end"></div>
-                    </div>
 
+                        <div class="col-7 barcelona-img rounded-end"></div>
+
+                    </div>
                 </div>
             </div>
         </div>

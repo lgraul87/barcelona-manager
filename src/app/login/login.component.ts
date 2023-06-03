@@ -21,10 +21,18 @@ export class LoginComponent {
     private firestore: Firestore,
   ) { }
 
+  get email() { 
+    return this.loginForm.get('email'); 
+  }
+
+  get password() { 
+    return this.loginForm.get('password'); 
+  }
+
   ngOnInit() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.minLength(1)]),
-      password: new FormControl('', [Validators.required, Validators.minLength(1)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(2)]),
     })
   }
 
@@ -34,17 +42,17 @@ export class LoginComponent {
 
     if (loginForm.valid) {
       const login = {
-        userName: loginForm.value.userName,
+        email: loginForm.value.email,
         password: loginForm.value.password,
       };
 
-      const coleccion = query(collection(this.firestore, 'account'), where('userName', '==', login.userName), where('password', '==', login.password))
+      const coleccion = query(collection(this.firestore, 'account'), where('userName', '==', login.email), where('password', '==', login.password))
       const documentos = await getDocs(coleccion);
 
       if (documentos.docs.length == 1) {
         this.unregistered = false;
-        sessionStorage.setItem('userLogged', login.userName);
-        this.router.navigate(['/principal'])
+        sessionStorage.setItem('userLogged', login.email);
+        this.router.navigate(['/main'])
 
       } else {
         this.unregistered = true;
