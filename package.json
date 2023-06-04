@@ -1,5 +1,5 @@
 {
-  "project": "barcelona-manager",
+  "name": "barcelona-manager",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
