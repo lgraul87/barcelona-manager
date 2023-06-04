@@ -1,4 +1,4 @@
-<div class="container-fluid vh-100 main-background">
+<div class="container-fluid vh-100 background">
     <div class="row h-100">
         <div class="col my-auto">
             <div class="row d-flex justify-content-center">
@@ -18,15 +18,9 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col mt-2">
-                                    <h6 class="text-secondary">Introduzca su correo y contraseña para acceder</h6>
-                                </div>
-                            </div>
-
                             <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm)">
                                 <div class="row">
-                                    <div class="col mt-3">
+                                    <div class="col mt-5">
                                         <input class="form-control" placeholder="E-mail" formControlName="email"
                                             type="email">
 
