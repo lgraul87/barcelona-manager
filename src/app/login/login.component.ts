@@ -33,7 +33,7 @@ export class LoginComponent {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(2)]),
-    })
+    });
   }
 
   async loginUser(loginForm: FormGroup) {
@@ -58,5 +58,7 @@ export class LoginComponent {
         this.unregistered = true;
       }
     }
+
   }
+  
 }
