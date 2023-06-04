@@ -46,7 +46,7 @@ export class LoginComponent {
         password: loginForm.value.password,
       };
 
-      const coleccion = query(collection(this.firestore, 'account'), where('userName', '==', login.email), where('password', '==', login.password))
+      const coleccion = query(collection(this.firestore, 'account'), where('email', '==', login.email), where('password', '==', login.password))
       const documentos = await getDocs(coleccion);
 
       if (documentos.docs.length == 1) {
