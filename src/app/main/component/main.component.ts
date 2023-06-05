@@ -7,6 +7,9 @@ import { Player } from '../interfaces/player.dto';
 import { MainService } from '../services/main.service';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-main',
@@ -18,16 +21,20 @@ export class MainComponent {
   players: Player[] = [];
   playerFilteredForm!: FormGroup;
   addPlayerForm!: FormGroup;
-  barcelonaIcon='assets/icono-escudo.jpg';
-  barcelonaCard='assets/escudo.jpg';
+  barcelonaIcon = 'assets/icono-escudo.jpg';
+  barcelonaCard = 'assets/escudo.jpg';
+  fileToUpload: any = null;
 
   constructor(
-    private firestore: Firestore,
     private modalService: NgbModal,
-    private mainService: MainService
+    private mainService: MainService,
+    private router: Router
   ) { }
 
   async ngOnInit() {
+    if (!sessionStorage.getItem('userLogged')) {
+      this.router.navigate(['']);
+    }
     this.findAllPlayers();
     this.initPlayerFilteredForm();
     this.initAddPlayerForm();
@@ -48,13 +55,26 @@ export class MainComponent {
   }
 
   addPlayer(addPlayerForm: FormGroup) {
-    const player = {
-      name: addPlayerForm.value.name,
-      number: addPlayerForm.value.number,
-      position: addPlayerForm.value.position,
-      age: addPlayerForm.value.age,
-    };
-    this.mainService.addPlayer(player);
+    const file = this.fileToUpload;
+    const storage = getStorage();
+    const storageRef = ref(storage, '/players/' + file.name);
+
+    uploadBytes(storageRef, file).then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+      getDownloadURL(ref(storage, '/players/' + file.name))
+        .then((url) => {
+          const player = {
+            name: addPlayerForm.value.name,
+            number: addPlayerForm.value.number,
+            position: addPlayerForm.value.position,
+            age: addPlayerForm.value.age,
+            url: url
+          };
+          this.mainService.addPlayer(player);
+        }).catch((error) => {
+          console.log("Un error: ", error);
+        });
+    });
   }
 
   private findAllPlayers() {
@@ -93,5 +113,10 @@ export class MainComponent {
       }),
       catchError(() => of('Execution error'))
     ).subscribe();
+  }
+
+  handleFileInput(event: any) {
+    const file: File = event.target.files[0];
+    this.fileToUpload = file;
   }
 }

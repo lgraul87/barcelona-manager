@@ -32,3 +32,13 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
        email: lgraul87@gmail.com 
        password: 123456
+
+2.- Se desarrollan validaciones y la funcionalidad para logarse
+
+3.- Se desarrolla la funcionalidad de mostrar todos.
+
+4.- Se desarrolla la funcionalidad buscar por nombre/filtro.
+
+5.- Se desarrolla el modal detalle de jugador.
+
+6.- Se desarrolla añadir nuevo jugador.
