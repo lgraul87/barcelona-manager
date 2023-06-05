@@ -5,45 +5,38 @@
                 <div class="login-container">
                     <div class="row h-100">
                         <div class="col-5 bg-white rounded-start">
-
                             <div class="row mt-3">
                                 <div class="col mt-5 text-center">
                                     <h5 class="text-primary">Barcelona manager assistant</h5>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col mt-4 text-center">
                                     <h5>Iniciar sesión</h5>
                                 </div>
                             </div>
-
                             <form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm)">
                                 <div class="row">
                                     <div class="col mt-5">
                                         <input class="form-control" placeholder="E-mail" formControlName="email"
                                             type="email">
-
                                         <div *ngIf="!isSubmited || email?.valid">
                                             <span>
-                                               &nbsp;
+                                                &nbsp;
                                             </span>
                                         </div>
-
                                         <div *ngIf="email?.hasError('required') && isSubmited">
                                             <span class="text-danger">
                                                 * E-mail es obligatorio
                                             </span>
                                         </div>
-
                                         <div *ngIf="email?.hasError('email') && isSubmited">
                                             <span class="text-danger">
-                                               * E-mail inválido, ej: "email@gmail.com"
+                                                * E-mail inválido, ej: "email@gmail.com"
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col mt-2">
                                         <input class="form-control" placeholder="Password" formControlName="password"
@@ -68,7 +61,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
                                     <div class="col mt-3">
                                         <button type="submit" class="btn btn-primary w-100">Enviar</button>
@@ -81,11 +73,8 @@
                                     </div>
                                 </div>
                             </form>
-
                         </div>
-
                         <div class="col-7 barcelona-img rounded-end"></div>
-
                     </div>
                 </div>
             </div>

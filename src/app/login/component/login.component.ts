@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Firestore, collection, getDocs, where, query } from '@angular/fire/firestore';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -11,23 +11,23 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   loginForm!: FormGroup;
-  dataLoading: boolean = false;
-  unregistered: boolean = false;
-  invalid: boolean = false;
+  dataLoading = false;
+  unregistered = false;
+  invalid = false;
   isSubmited = false;
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
 
   constructor(
     private router: Router,
-    private firestore: Firestore,
+    private loginService: LoginService
   ) { }
-
-  get email() { 
-    return this.loginForm.get('email'); 
-  }
-
-  get password() { 
-    return this.loginForm.get('password'); 
-  }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -37,28 +37,23 @@ export class LoginComponent {
   }
 
   async loginUser(loginForm: FormGroup) {
-
     this.isSubmited = true;
-
     if (loginForm.valid) {
       const login = {
         email: loginForm.value.email,
         password: loginForm.value.password,
       };
 
-      const coleccion = query(collection(this.firestore, 'account'), where('email', '==', login.email), where('password', '==', login.password))
-      const documentos = await getDocs(coleccion);
+      const colecction = this.loginService.getCollections(login);
+      const documents = await this.loginService.getDocuments(colecction);
 
-      if (documentos.docs.length == 1) {
+      if (documents.docs.length == 1) {
         this.unregistered = false;
         sessionStorage.setItem('userLogged', login.email);
         this.router.navigate(['/main'])
-
       } else {
         this.unregistered = true;
       }
     }
-
   }
-  
 }
